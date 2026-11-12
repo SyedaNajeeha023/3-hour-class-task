@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Performance Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="app-header">
+    <div class="header-content">
+      <h1>🎓 Student Performance Dashboard</h1>
+      <p class="subtitle">Track, analyze, and celebrate academic progress</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ============ REGISTRATION FORM ============ -->
+    <section class="card form-card">
+      <div class="card-header">
+        <h2>📝 Register New Student</h2>
+        <span class="badge">Step 1</span>
+      </div>
+
+      <form id="studentForm" novalidate>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" id="studentName" placeholder="e.g. Ali Khan" required>
+            <small class="hint" id="nameHint"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="regNumber">Registration Number</label>
+            <input type="text" id="regNumber" placeholder="e.g. REG-001" required>
+            <small class="hint" id="regHint"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="programming">Programming</label>
+            <input type="number" id="programming" min="0" max="100" required>
+          </div>
+
+          <div class="form-group">
+            <label for="mathematics">Mathematics</label>
+            <input type="number" id="mathematics" min="0" max="100" required>
+          </div>
+
+          <div class="form-group">
+            <label for="english">English</label>
+            <input type="number" id="english" min="0" max="100" required>
+          </div>
+
+          <div class="form-group">
+            <label for="database">Database</label>
+            <input type="number" id="database" min="0" max="100" required>
+          </div>
+
+          <div class="form-group">
+            <label for="networks">Computer Networks</label>
+            <input type="number" id="networks" min="0" max="100" required>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">➕ Add Student</button>
+          <button type="button" class="btn btn-ghost" id="fillSampleBtn">🎲 Fill Sample Data</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ============ STATS DASHBOARD ============ -->
+    <section class="stats-grid">
+      <div class="stat-card stat-total">
+        <div class="stat-icon">👥</div>
+        <div>
+          <span class="stat-label">Total Students</span>
+          <span class="stat-value" id="totalStudents">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-average">
+        <div class="stat-icon">📊</div>
+        <div>
+          <span class="stat-label">Class Average</span>
+          <span class="stat-value" id="classAverage">0%</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-top">
+        <div class="stat-icon">🏆</div>
+        <div>
+          <span class="stat-label">Top Performer</span>
+          <span class="stat-value stat-value-sm" id="topStudent">—</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-pass">
+        <div class="stat-icon">✅</div>
+        <div>
+          <span class="stat-label">Pass Rate</span>
+          <span class="stat-value" id="passRate">0%</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-hard">
+        <div class="stat-icon">⚠️</div>
+        <div>
+          <span class="stat-label">Hardest Subject</span>
+          <span class="stat-value stat-value-sm" id="hardestSubject">—</span>
+        </div>
+      </div>
+
+      <div class="stat-card stat-topper">
+        <div class="stat-icon">🌟</div>
+        <div>
+          <span class="stat-label">Most Popular Grade</span>
+          <span class="stat-value" id="popularGrade">—</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TOOLBAR ============ -->
+    <section class="card toolbar-card">
+      <div class="toolbar">
+        <input type="text" id="searchInput" class="search-input"
+               placeholder="🔍 Search by name or reg. number...">
+
+        <select id="sortSelect" class="sort-select">
+          <option value="none">Sort by...</option>
+          <option value="percentage-desc">Percentage ↓</option>
+          <option value="percentage-asc">Percentage ↑</option>
+          <option value="name-asc">Name A–Z</option>
+          <option value="regNo-asc">Reg. No.</option>
+        </select>
+
+        <select id="filterSelect" class="sort-select">
+          <option value="all">All Students</option>
+          <option value="pass">Only Pass</option>
+          <option value="fail">Only Fail</option>
+          <option value="distinction">Distinction (A)</option>
+        </select>
+
+        <button class="btn btn-danger" id="clearAllBtn">🗑️ Clear All</button>
+      </div>
+    </section>
+
+    <!-- ============ RESULTS TABLE ============ -->
+    <section class="card table-card">
+      <div class="card-header">
+        <h2>📋 Student Results</h2>
+        <span class="badge badge-muted" id="visibleCount">0 records</span>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Reg No.</th>
+              <th>Prog</th>
+              <th>Math</th>
+              <th>Eng</th>
+              <th>DB</th>
+              <th>Net</th>
+              <th>Total</th>
+              <th>%</th>
+              <th>Grade</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Toast notification container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
